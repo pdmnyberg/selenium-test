@@ -33,7 +33,7 @@ def page_feature(path, root):
     return _page
 
 
-def main(root, pages):
+def capture_pages(root, pages):
     driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
     driver.get(root)
     sizes = [
@@ -53,4 +53,15 @@ def main(root, pages):
     driver.close()
 
 
-main(sys.argv[1], sys.argv[2:])
+def main(args):
+    try:
+        capture_pages(args[0], args[1:])
+    except IndexError:
+        print(
+            "Usage: test.py <root>/ <page_0> <page_1> ... <page_N>\n"
+            '   ex: test.py "http://localhost:3000/" main.html test.html'
+        )
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
